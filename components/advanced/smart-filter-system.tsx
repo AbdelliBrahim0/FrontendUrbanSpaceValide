@@ -425,3 +425,184 @@ export function SmartFilterSystem({ isOpen, onClose, onApplyFilters }: SmartFilt
     </AnimatePresence>
   )
 }
+
+// Version sidebar permanente pour affichage à gauche
+export function SmartFilterSidebar() {
+  const [activeTab, setActiveTab] = useState("categories")
+  const [filters, setFilters] = useState<FilterOptions>({
+    categories: [],
+    priceRange: [0, 500],
+    sizes: [],
+    colors: [],
+    ratings: 0,
+    brands: [],
+    features: [],
+  })
+
+  const categories = [
+    { name: "Hoodies & Sweatshirts", count: 156, icon: "👕" },
+    { name: "T-Shirts & Tops", count: 234, icon: "👔" },
+    { name: "Jackets & Coats", count: 89, icon: "🧥" },
+    { name: "Pants & Jeans", count: 167, icon: "👖" },
+    { name: "Footwear", count: 198, icon: "👟" },
+    { name: "Accessories", count: 145, icon: "🎒" },
+    { name: "Tech Wear", count: 67, icon: "⚡" },
+    { name: "Luxury Collection", count: 34, icon: "💎" },
+    { name: "Limited Edition", count: 23, icon: "🔥" },
+    { name: "Sustainable", count: 78, icon: "🌱" },
+    { name: "Streetwear", count: 189, icon: "🏙️" },
+    { name: "Athletic", count: 123, icon: "🏃" },
+  ]
+
+  const sizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"]
+  const colors = [
+    { name: "Black", hex: "#000000" },
+    { name: "White", hex: "#FFFFFF" },
+    { name: "Purple", hex: "#8B5CF6" },
+    { name: "Cyan", hex: "#06B6D4" },
+    { name: "Pink", hex: "#EC4899" },
+    { name: "Red", hex: "#EF4444" },
+    { name: "Blue", hex: "#3B82F6" },
+    { name: "Green", hex: "#10B981" },
+    { name: "Yellow", hex: "#F59E0B" },
+    { name: "Orange", hex: "#F97316" },
+    { name: "Gray", hex: "#6B7280" },
+    { name: "Navy", hex: "#1E3A8A" },
+  ]
+
+  const brands = [
+    "UrbanSpace",
+    "NeonTech",
+    "CyberWear",
+    "FutureStyle",
+    "HoloFashion",
+    "TechStreet",
+    "QuantumWear",
+    "NeoStyle",
+  ]
+
+  const features = [
+    "LED Integration",
+    "Waterproof",
+    "Breathable",
+    "Anti-Microbial",
+    "Temperature Control",
+    "Reflective",
+    "Glow-in-Dark",
+    "Smart Fabric",
+  ]
+
+  const priceRanges = [
+    { label: "Under $50", min: 0, max: 50 },
+    { label: "$50 - $100", min: 50, max: 100 },
+    { label: "$100 - $200", min: 100, max: 200 },
+    { label: "$200 - $300", min: 200, max: 300 },
+    { label: "Over $300", min: 300, max: 1000 },
+  ]
+
+  const tabs = [
+    { id: "categories", label: "Categories", icon: Filter },
+    { id: "price", label: "Price", icon: Tag },
+    { id: "size", label: "Size", icon: Ruler },
+    { id: "color", label: "Color", icon: Palette },
+    { id: "rating", label: "Rating", icon: Star },
+    { id: "features", label: "Features", icon: Zap },
+  ]
+
+  const handleCategoryToggle = (category: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      categories: prev.categories.includes(category)
+        ? prev.categories.filter((c) => c !== category)
+        : [...prev.categories, category],
+    }))
+  }
+
+  const handleSizeToggle = (size: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      sizes: prev.sizes.includes(size) ? prev.sizes.filter((s) => s !== size) : [...prev.sizes, size],
+    }))
+  }
+
+  const handleColorToggle = (color: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      colors: prev.colors.includes(color) ? prev.colors.filter((c) => c !== color) : [...prev.colors, color],
+    }))
+  }
+
+  const handleBrandToggle = (brand: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      brands: prev.brands.includes(brand) ? prev.brands.filter((b) => b !== brand) : [...prev.brands, brand],
+    }))
+  }
+
+  const handleFeatureToggle = (feature: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      features: prev.features.includes(feature)
+        ? prev.features.filter((f) => f !== feature)
+        : [...prev.features, feature],
+    }))
+  }
+
+  const clearAllFilters = () => {
+    setFilters({
+      categories: [],
+      priceRange: [0, 500],
+      sizes: [],
+      colors: [],
+      ratings: 0,
+      brands: [],
+      features: [],
+    })
+  }
+
+  const getActiveFiltersCount = () => {
+    return (
+      filters.categories.length +
+      filters.sizes.length +
+      filters.colors.length +
+      filters.brands.length +
+      filters.features.length +
+      (filters.ratings > 0 ? 1 : 0)
+    )
+  }
+
+  return (
+    <aside className="w-full max-w-xs bg-gray-900 border-r border-gray-800 h-full p-6 hidden md:block">
+      <div className="flex items-center space-x-3 mb-6">
+        <Filter className="w-6 h-6 text-purple-400" />
+        <h2 className="text-xl font-bold text-white">Smart Filters</h2>
+      </div>
+      <div>
+        <h3 className="text-purple-400 font-semibold mb-2">Categories</h3>
+        <ul className="space-y-2">
+          {categories.map((cat) => (
+            <li key={cat.name}>
+              <button
+                className={`flex items-center w-full px-3 py-2 rounded-lg transition-colors duration-200 text-left ${
+                  filters.categories.includes(cat.name)
+                    ? "bg-purple-600/20 text-purple-300"
+                    : "hover:bg-gray-800 text-white"
+                }`}
+                onClick={() => setFilters((prev) => ({
+                  ...prev,
+                  categories: prev.categories.includes(cat.name)
+                    ? prev.categories.filter((c) => c !== cat.name)
+                    : [...prev.categories, cat.name],
+                }))}
+              >
+                <span className="mr-2">{cat.icon}</span>
+                {cat.name}
+                <span className="ml-auto text-xs text-gray-400">{cat.count}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  )
+}

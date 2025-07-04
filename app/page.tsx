@@ -123,7 +123,8 @@ export default function HomePage() {
       <CategoryGrid />
       <section className="px-4 pb-20">
         <div className="max-w-7xl mx-auto">
-          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <h2 className="text-6xl md:text-8xl font-black mb-6 bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400 bg-clip-text text-transparent text-center">Nos Produits</h2>
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
             {products.map((product) => (
               <ProductCards key={product.id} product={product} />
             ))}

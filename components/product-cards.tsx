@@ -4,7 +4,6 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { ShoppingBag, Eye } from "lucide-react"
 import { WishlistButton } from "./wishlist-button"
-import { QuickViewModal } from "./quick-view-modal"
 
 interface Product {
   id: number
@@ -30,7 +29,6 @@ interface ProductCardsProps {
 export function ProductCards({ product }: ProductCardsProps) {
   const [isLiked, setIsLiked] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
-  const [showQuickView, setShowQuickView] = useState(false)
 
   // Early return if product is undefined
   if (!product) {
@@ -120,9 +118,6 @@ export function ProductCards({ product }: ProductCardsProps) {
           </motion.div>
         )}
 
-        {/* Wishlist Button */}
-        <WishlistButton productId={id} className="absolute top-4 right-4" />
-
         {/* Product Image */}
         <div className="relative aspect-[3/4] overflow-hidden">
           <motion.img
@@ -148,18 +143,6 @@ export function ProductCards({ product }: ProductCardsProps) {
             animate={{ opacity: isHovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            <motion.button
-              className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors duration-300"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.15 }}
-              onClick={() => setShowQuickView(true)}
-            >
-              <Eye className="w-5 h-5 text-white" />
-            </motion.button>
-
             <motion.button
               className="p-3 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-full hover:from-purple-700 hover:to-cyan-700 transition-all duration-300 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: inStock ? 1.1 : 1 }}
@@ -241,41 +224,25 @@ export function ProductCards({ product }: ProductCardsProps) {
               )}
             </div>
 
-            <motion.button
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                inStock
-                  ? "bg-gradient-to-r from-purple-600/20 to-cyan-600/20 border border-purple-500/30 text-purple-300 hover:from-purple-600/30 hover:to-cyan-600/30 hover:border-purple-400/50"
-                  : "bg-gray-800 border border-gray-700 text-gray-500 cursor-not-allowed"
-              }`}
-              whileHover={{ scale: inStock ? 1.05 : 1 }}
-              whileTap={{ scale: inStock ? 0.95 : 1 }}
-              disabled={!inStock}
-              onClick={handleAddToCart}
-            >
-              {inStock ? "Add to Cart" : "Out of Stock"}
-            </motion.button>
+            <div className="flex items-center space-x-2">
+              <motion.button
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  inStock
+                    ? "bg-gradient-to-r from-purple-600/20 to-cyan-600/20 border border-purple-500/30 text-purple-300 hover:from-purple-600/30 hover:to-cyan-600/30 hover:border-purple-400/50"
+                    : "bg-gray-800 border border-gray-700 text-gray-500 cursor-not-allowed"
+                }`}
+                whileHover={{ scale: inStock ? 1.05 : 1 }}
+                whileTap={{ scale: inStock ? 0.95 : 1 }}
+                disabled={!inStock}
+                onClick={handleAddToCart}
+              >
+                {inStock ? "Add to Cart" : "Out of Stock"}
+              </motion.button>
+              <WishlistButton productId={id} className="ml-2" />
+            </div>
           </motion.div>
         </div>
       </div>
-
-      <QuickViewModal
-        isOpen={showQuickView}
-        onClose={() => setShowQuickView(false)}
-        product={{
-          id,
-          name,
-          price,
-          image,
-          category,
-          images: [image, image, image],
-          rating,
-          reviews,
-          description,
-          sizes,
-          colors,
-          inStock,
-        }}
-      />
     </motion.div>
   )
 }

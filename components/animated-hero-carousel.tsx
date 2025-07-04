@@ -7,27 +7,27 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 const slides = [
   {
     id: 1,
-    title: "Future Streetwear",
+    title: "Streetwear du Futur",
     subtitle: "Collection 2024",
-    description: "Discover the next generation of urban fashion",
+    description: "Découvrez la nouvelle génération de mode urbaine",
     image: "/placeholder.svg?height=800&width=1200",
-    cta: "Shop Now",
+    cta: "Découvrir la collection",
   },
   {
     id: 2,
-    title: "Neon Dreams",
-    subtitle: "Limited Edition",
-    description: "Glow in the dark collection with premium materials",
+    title: "Rêves Néon",
+    subtitle: "Édition Limitée",
+    description: "Collection phosphorescente avec des matériaux premium",
     image: "/placeholder.svg?height=800&width=1200",
-    cta: "Explore",
+    cta: "Explorer",
   },
   {
     id: 3,
-    title: "Urban Elite",
-    subtitle: "Premium Line",
-    description: "Exclusive pieces for the modern trendsetter",
+    title: "Élite Urbaine",
+    subtitle: "Ligne Premium",
+    description: "Pièces exclusives pour les créateurs de tendances modernes",
     image: "/placeholder.svg?height=800&width=1200",
-    cta: "Discover",
+    cta: "Découvrir",
   },
 ]
 
