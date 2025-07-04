@@ -10,7 +10,7 @@ const slides = [
     title: "Streetwear du Futur",
     subtitle: "Collection 2024",
     description: "Découvrez la nouvelle génération de mode urbaine",
-    image: "/placeholder.svg?height=800&width=1200",
+    image: "/hero/Jordan.png",
     cta: "Découvrir la collection",
   },
   {

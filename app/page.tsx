@@ -1,137 +1,71 @@
 "use client"
 
-import { useState } from "react"
-import { AnimatedHeroCarousel } from "@/components/animated-hero-carousel"
-import { PromotionalBanner } from "@/components/promotions/promotional-banner"
-import { ProductShowcaseCarousel } from "@/components/advanced/product-showcase-carousel"
-import { TrendingCollections } from "@/components/advanced/trending-collections"
-import { CategoryGrid } from "@/components/category-grid"
-import { ProductCards } from "@/components/product-cards"
-import { Footer } from "@/components/footer"
-import { ScrollingBanner } from "@/components/scrolling-banner"
+import { useEffect, useRef, useState } from "react"
+import { motion } from "framer-motion"
 
-const products = [
-  {
-    id: 1,
-    name: "Neon Pulse Hoodie",
-    price: 89,
-    originalPrice: 120,
-    discount: 25,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: true,
-    category: "Hoodies",
-    rating: 4.8,
-    reviews: 124,
-    description: "Premium neon hoodie with LED technology and ultra-soft fabric",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Purple", "Cyan"],
-    inStock: true,
-  },
-  {
-    id: 2,
-    name: "Urban Glow Sneakers",
-    price: 159,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: false,
-    category: "Shoes",
-    rating: 4.6,
-    reviews: 89,
-    description: "Futuristic sneakers with glow-in-the-dark soles",
-    sizes: ["7", "8", "9", "10", "11", "12"],
-    colors: ["White", "Black", "Blue"],
-    inStock: true,
-  },
-  {
-    id: 3,
-    name: "Street Beam Jacket",
-    price: 199,
-    originalPrice: 249,
-    discount: 20,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: true,
-    category: "Jackets",
-    rating: 4.9,
-    reviews: 156,
-    description: "Weather-resistant jacket with integrated LED strips",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Gray", "Navy"],
-    inStock: true,
-  },
-  {
-    id: 4,
-    name: "Cyber Cargo Pants",
-    price: 129,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: false,
-    category: "Pants",
-    rating: 4.4,
-    reviews: 67,
-    description: "Multi-pocket cargo pants with tech-inspired design",
-    sizes: ["28", "30", "32", "34", "36", "38"],
-    colors: ["Black", "Olive", "Gray"],
-    inStock: false,
-  },
-  {
-    id: 5,
-    name: "Holographic Tee",
-    price: 59,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: true,
-    category: "T-Shirts",
-    rating: 4.7,
-    reviews: 203,
-    description: "Color-shifting holographic print on premium cotton",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["White", "Black", "Silver"],
-    inStock: true,
-  },
-  {
-    id: 6,
-    name: "Future Boots",
-    price: 189,
-    originalPrice: 220,
-    discount: 15,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: false,
-    category: "Shoes",
-    rating: 4.5,
-    reviews: 78,
-    description: "High-tech boots with smart temperature control",
-    sizes: ["7", "8", "9", "10", "11", "12"],
-    colors: ["Black", "White", "Red"],
-    inStock: true,
-  },
-]
+const videos = Array.from({ length: 13 }, (_, i) => `/firstpage/${i + 1}.mp4`)
 
-export default function HomePage() {
-  const [bannerVisible, setBannerVisible] = useState(true)
+export default function Home() {
+  const [current, setCurrent] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const handleEnded = () => {
+      setCurrent((prev) => (prev + 1) % videos.length)
+    }
+    video.addEventListener("ended", handleEnded)
+    return () => video.removeEventListener("ended", handleEnded)
+  }, [current])
+
+  useEffect(() => {
+    // Force reload video when current changes
+    if (videoRef.current) {
+      videoRef.current.load()
+      videoRef.current.play()
+    }
+  }, [current])
+
   return (
-    <main className="min-h-screen bg-black">
-      <AnimatedHeroCarousel />
-      {bannerVisible && (
-        <PromotionalBanner onClose={() => setBannerVisible(false)} />
-      )}
-      <ProductShowcaseCarousel />
-      <ScrollingBanner messages={[
-        "🔥 Livraison offerte dès 50€ d'achat !",
-        "✨ Nouveautés chaque semaine !",
-        "🎁 10% de réduction avec le code URBAN10",
-        "🚀 Expédition en 24h !",
-        "💎 Qualité premium garantie !"
-      ]} />
-      <TrendingCollections />
-      <CategoryGrid />
-      <section className="px-4 pb-20">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-6xl md:text-8xl font-black mb-6 bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400 bg-clip-text text-transparent text-center">Nos Produits</h2>
-          <div className="grid gap-8 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-            {products.map((product) => (
-              <ProductCards key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
-      <Footer />
+    <main className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
+      {/* Video background */}
+      <video
+        key={current}
+        ref={videoRef}
+        src={videos[current]}
+        autoPlay
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        style={{ pointerEvents: "none" }}
+      />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/60 z-10" />
+      {/* Animated Text */}
+      <div className="relative z-20 flex flex-col items-center mt-0">
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="text-6xl md:text-8xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-green-400 bg-clip-text text-transparent drop-shadow-lg text-center"
+        >
+          <motion.span
+            initial={{ letterSpacing: "-0.5em" }}
+            animate={{ letterSpacing: "normal" }}
+            transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+            className="block"
+          >
+            Urban Space
+          </motion.span>
+        </motion.h1>
+        <a
+          href="/boutique"
+          className="mt-8 inline-block px-10 py-4 rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-green-400 text-white text-2xl font-bold shadow-lg hover:scale-105 hover:from-blue-600 hover:to-green-500 transition-all duration-300"
+        >
+          Boutique
+        </a>
+      </div>
     </main>
   )
 }

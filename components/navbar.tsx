@@ -46,6 +46,13 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
+              <motion.a
+                href="/boutique"
+                className="text-gray-300 hover:text-white transition-colors duration-300 font-semibold"
+                whileHover={{ scale: 1.05 }}
+              >
+                Boutique
+              </motion.a>
               <motion.button
                 onClick={() => setIsCategoriesOpen(true)}
                 className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-300 font-semibold"
@@ -213,6 +220,13 @@ export function Navbar() {
               transition={{ duration: 0.3 }}
             >
               <div className="px-4 py-6 space-y-4">
+                <motion.a
+                  href="/boutique"
+                  className="block text-gray-300 hover:text-white transition-colors duration-300 font-semibold py-2"
+                  whileHover={{ x: 10 }}
+                >
+                  Boutique
+                </motion.a>
                 <motion.button
                   onClick={() => {
                     setIsCategoriesOpen(true)
