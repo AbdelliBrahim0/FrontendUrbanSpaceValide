@@ -10,7 +10,7 @@ const slides = [
     title: "Streetwear du Futur",
     subtitle: "Collection 2024",
     description: "Découvrez la nouvelle génération de mode urbaine",
-    image: "/hero/Jordan.png",
+    image: "/hero/A11.jpg",
     cta: "Découvrir la collection",
   },
   {
@@ -18,7 +18,7 @@ const slides = [
     title: "Rêves Néon",
     subtitle: "Édition Limitée",
     description: "Collection phosphorescente avec des matériaux premium",
-    image: "/placeholder.svg?height=800&width=1200",
+    image: "/hero/A111.jpg",
     cta: "Explorer",
   },
   {
@@ -26,7 +26,7 @@ const slides = [
     title: "Élite Urbaine",
     subtitle: "Ligne Premium",
     description: "Pièces exclusives pour les créateurs de tendances modernes",
-    image: "/placeholder.svg?height=800&width=1200",
+    image: "/hero/A1111.jpg",
     cta: "Découvrir",
   },
 ]

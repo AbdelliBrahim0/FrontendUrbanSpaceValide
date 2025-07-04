@@ -23,74 +23,74 @@ interface Product {
 const showcaseProducts: Product[] = [
   {
     id: 1,
-    name: "Quantum Pulse Hoodie",
+    name: "PEGASUS WAVE – Nike Shoes",
     price: 299,
     originalPrice: 399,
-    image: "/placeholder.svg?height=600&width=500",
-    category: "Tech Wear",
+    image: "/soushero/vd1.mp4",
+    category: "Footwear d’exception",
     rating: 4.9,
     reviews: 247,
     isNew: true,
     colors: ["#000000", "#8B5CF6", "#06B6D4"],
-    description: "Revolutionary hoodie with integrated LED fiber technology and temperature control.",
+    description: `Plongez dans l’innovation ultime avec la Pegasus Wave :\n- Semelle réactive à mémoire de forme\n- Design futuriste inspiré de l’aérodynamisme\n- Légèreté extrême, maintien parfait\n- Performance et style réunis pour les esprits conquérants\n- Édition limitée, réservée aux leaders de demain`,
   },
   {
     id: 2,
-    name: "Neon Genesis Sneakers",
+    name: "JORDAN BASKETS MONTANTES AIR JORDAN 1 ELEVATE HIGH",
     price: 459,
-    image: "/placeholder.svg?height=600&width=500",
-    category: "Footwear",
+    image: "/soushero/vd2.mp4",
+    category: "Sneakers Iconiques",
     rating: 4.8,
     reviews: 189,
     isLimited: true,
     colors: ["#FFFFFF", "#EC4899", "#10B981"],
-    description: "Limited edition self-illuminating sneakers with smart sole technology.",
+    description: `Découvrez l'icône par excellence avec les Air Jordan 1 Elevate High :\n- Design montant légendaire, silhouette reconnaissable entre toutes\n- Qualité premium, finitions impeccables\n- Confort exceptionnel, maintien parfait\n- Pour les passionnés de sneakers et les connaisseurs du style urbain\n- L'héritage Jordan, porté par une nouvelle génération`,
   },
   {
     id: 3,
-    name: "Holographic Bomber",
+    name: "NIKE SONIC FLY",
     price: 399,
     originalPrice: 499,
-    image: "/placeholder.svg?height=600&width=500",
-    category: "Jackets",
+    image: "/soushero/vd3.mp4",
+    category: "Sneakers Performance",
     rating: 4.7,
     reviews: 156,
     isBestseller: true,
     colors: ["#000000", "#8B5CF6", "#F59E0B"],
-    description: "Iridescent bomber jacket that changes color based on viewing angle.",
+    description: `Découvrez la vitesse incarnée avec les Nike Sonic Fly :\n- Design aérodynamique pour une performance maximale\n- Technologie de pointe, légèreté exceptionnelle\n- Confort optimal, réactivité inégalée\n- Pour les athlètes et les coureurs exigeants\n- L'innovation Nike au service de votre performance`,
   },
   {
     id: 4,
-    name: "Cyber Mesh Pants",
+    name: "ADIDAS HANDBALL SPEZIAL",
     price: 199,
-    image: "/placeholder.svg?height=600&width=500",
-    category: "Pants",
+    image: "/soushero/vd4.mp4",
+    category: "Sneakers Iconiques Adidas",
     rating: 4.6,
     reviews: 134,
     isNew: true,
     colors: ["#000000", "#374151", "#06B6D4"],
-    description: "Breathable mesh pants with integrated cooling system and LED accents.",
+    description: `Découvrez l'icône urbaine par excellence avec les Adidas Handball Spezial :\n- Design rétro authentique, silhouette intemporelle\n- Qualité premium, finitions impeccables\n- Confort légendaire, style urbain assumé\n- Pour les connaisseurs et les passionnés de sneakers vintage\n- L'héritage Adidas, porté par une nouvelle génération`,
   },
   {
     id: 5,
-    name: "Neural Interface Jacket",
+    name: "NIKE AIR MAX",
     price: 599,
     originalPrice: 799,
-    image: "/placeholder.svg?height=600&width=500",
-    category: "Tech Wear",
+    image: "/soushero/vd5.mp4",
+    category: "Sneakers Iconiques Nike",
     rating: 4.9,
     reviews: 89,
     isLimited: true,
     colors: ["#000000", "#8B5CF6"],
-    description: "AI-powered jacket with biometric monitoring and adaptive climate control.",
+    description: `Découvrez l'icône du confort avec les Nike Air Max :\n- Technologie Air révolutionnaire, amorti exceptionnel\n- Design intemporel, silhouette reconnaissable\n- Confort légendaire, style urbain premium\n- Pour les passionnés de sneakers et les connaisseurs du confort\n- L'innovation Nike qui a révolutionné le monde des sneakers`,
   },
 ]
 
 export function ProductShowcaseCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [selectedColor, setSelectedColor] = useState<Record<number, string>>({})
   const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -101,14 +101,8 @@ export function ProductShowcaseCarousel() {
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
 
   useEffect(() => {
-    if (!isAutoPlaying) return
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % showcaseProducts.length)
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [isAutoPlaying])
+    // Les boutons de navigation restent, mais sans gestion d'autoplay
+  }, [])
 
   const nextProduct = () => {
     setCurrentIndex((prev) => (prev + 1) % showcaseProducts.length)
@@ -179,13 +173,14 @@ export function ProductShowcaseCarousel() {
                 </div>
 
                 {/* Product Image */}
-                <motion.img
-                  src={currentProduct.image || "/placeholder.svg"}
-                  alt={currentProduct.name}
+                <video
+                  ref={videoRef}
+                  src={currentProduct.image}
                   className="relative z-10 w-full h-full object-cover"
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.8 }}
+                  autoPlay
+                  muted
+                  playsInline
+                  onEnded={nextProduct}
                 />
 
                 {/* Badges */}
@@ -222,22 +217,6 @@ export function ProductShowcaseCarousel() {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="absolute top-6 right-6 z-20 flex flex-col space-y-3">
-                  <motion.button
-                    className="p-3 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-colors duration-300"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Heart className="w-5 h-5 text-white" />
-                  </motion.button>
-                  <motion.button
-                    className="p-3 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-colors duration-300"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Eye className="w-5 h-5 text-white" />
-                  </motion.button>
-                </div>
               </div>
             </motion.div>
 
@@ -269,7 +248,8 @@ export function ProductShowcaseCarousel() {
 
               {/* Product Name */}
               <motion.h3
-                className="text-4xl md:text-5xl font-black text-white leading-tight"
+                className="text-4xl md:text-5xl font-black leading-tight bg-clip-text text-transparent uppercase tracking-widest drop-shadow-lg"
+                style={{ backgroundImage: currentProduct.id === 2 ? 'linear-gradient(to right, #1e3a8a, #ffffff)' : currentProduct.id === 3 ? 'linear-gradient(to right, #c7fc04, #6b7280)' : currentProduct.id === 4 ? 'linear-gradient(to right, #6f9f84, #ffffff)' : currentProduct.id === 5 ? 'linear-gradient(to right, #f97316, #8b5cf6, #06b6d4)' : 'linear-gradient(to right, #38bdf8, #83d57a)' }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -287,32 +267,6 @@ export function ProductShowcaseCarousel() {
                 {currentProduct.description}
               </motion.p>
 
-              {/* Color Selection */}
-              <motion.div
-                className="space-y-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                <h4 className="text-lg font-semibold text-white">Available Colors</h4>
-                <div className="flex space-x-3">
-                  {currentProduct.colors.map((color, index) => (
-                    <motion.button
-                      key={color}
-                      onClick={() => setSelectedColor({ ...selectedColor, [currentProduct.id]: color })}
-                      className={`w-12 h-12 rounded-full border-2 transition-all duration-300 ${
-                        selectedColor[currentProduct.id] === color || (!selectedColor[currentProduct.id] && index === 0)
-                          ? "border-white scale-110"
-                          : "border-gray-600 hover:border-gray-400"
-                      }`}
-                      style={{ backgroundColor: color }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    />
-                  ))}
-                </div>
-              </motion.div>
-
               {/* Price & Actions */}
               <motion.div
                 className="space-y-6"
@@ -320,27 +274,25 @@ export function ProductShowcaseCarousel() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
               >
-                <div className="flex items-center space-x-4">
-                  <span className="text-4xl font-bold text-white">${currentProduct.price}</span>
-                  {currentProduct.originalPrice && (
-                    <span className="text-2xl text-gray-500 line-through">${currentProduct.originalPrice}</span>
-                  )}
-                  {currentProduct.originalPrice && (
-                    <span className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-bold">
-                      Save ${currentProduct.originalPrice - currentProduct.price}
-                    </span>
-                  )}
-                </div>
-
                 <div className="flex space-x-4">
                   <motion.button
-                    className="flex-1 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold text-white text-lg relative overflow-hidden group"
+                    className={`flex-1 py-4 rounded-xl font-bold text-white text-lg relative overflow-hidden group ${
+                      currentProduct.id === 2 
+                        ? 'bg-gradient-to-r from-blue-800 to-white' 
+                        : currentProduct.id === 3
+                        ? 'bg-gradient-to-r from-[#c7fc04] to-gray-500'
+                        : currentProduct.id === 4
+                        ? 'bg-gradient-to-r from-[#6f9f84] to-white'
+                        : currentProduct.id === 5
+                        ? 'bg-gradient-to-r from-orange-500 via-purple-500 to-cyan-500'
+                        : 'bg-gradient-to-r from-sky-400 to-[#83d57a]'
+                    }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <span className="relative z-10 flex items-center justify-center space-x-2">
                       <ShoppingBag className="w-5 h-5" />
-                      <span>ADD TO CART</span>
+                      <span>Consulter</span>
                     </span>
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
@@ -348,14 +300,6 @@ export function ProductShowcaseCarousel() {
                       whileHover={{ x: "100%" }}
                       transition={{ duration: 0.6 }}
                     />
-                  </motion.button>
-
-                  <motion.button
-                    className="px-6 py-4 border-2 border-white/30 rounded-xl font-bold text-white hover:bg-white/10 transition-all duration-300"
-                    whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.6)" }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    BUY NOW
                   </motion.button>
                 </div>
               </motion.div>
@@ -365,8 +309,6 @@ export function ProductShowcaseCarousel() {
           {/* Navigation Arrows */}
           <motion.button
             onClick={prevProduct}
-            onMouseEnter={() => setIsAutoPlaying(false)}
-            onMouseLeave={() => setIsAutoPlaying(true)}
             className="absolute left-4 top-1/2 -translate-y-1/2 p-4 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-colors duration-300 z-20"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -376,8 +318,6 @@ export function ProductShowcaseCarousel() {
 
           <motion.button
             onClick={nextProduct}
-            onMouseEnter={() => setIsAutoPlaying(false)}
-            onMouseLeave={() => setIsAutoPlaying(true)}
             className="absolute right-4 top-1/2 -translate-y-1/2 p-4 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-colors duration-300 z-20"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -420,10 +360,11 @@ export function ProductShowcaseCarousel() {
               }`}
               whileHover={{ scale: index === currentIndex ? 1.05 : 1.02 }}
             >
-              <img
-                src={product.image || "/placeholder.svg"}
-                alt={product.name}
+              <video
+                src={product.image}
                 className="w-full h-full object-cover"
+                muted
+                playsInline
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
