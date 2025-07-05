@@ -20,7 +20,7 @@ const categories = [
   },
   {
     id: 3,
-    name: "Jackets",
+    name: "Flip Flops",
     image: "/placeholder.svg?height=400&width=300",
     count: 12,
     featured: true,
@@ -86,10 +86,13 @@ export function CategoryGrid() {
                   <div
                     className={`aspect-[4/3] ${category.featured ? "lg:aspect-[2/1]" : ""} relative overflow-hidden`}
                   >
-                    <img
-                      src={category.image || "/placeholder.svg"}
-                      alt={category.name}
+                    <video
+                      src={`/cathegories/${category.name}.mp4`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
                     />
 
                     {/* Gradient Overlay */}
@@ -106,7 +109,7 @@ export function CategoryGrid() {
                     {/* Content */}
                     <div className="absolute bottom-6 left-6 right-6">
                       <motion.h3
-                        className="text-2xl md:text-3xl font-bold text-white mb-2"
+                        className="text-3xl md:text-4xl font-extrabold mb-2 bg-gradient-to-r from-sky-400 via-purple-400 to-green-400 bg-clip-text text-transparent uppercase tracking-wider drop-shadow-lg"
                         initial={{ y: 20, opacity: 0 }}
                         whileInView={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.6, delay: 0.2 }}

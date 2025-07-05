@@ -10,6 +10,7 @@ interface Product {
   name: string
   price: number
   image: string
+  hoverImage?: string
   isNew?: boolean
   category: string
   rating?: number
@@ -123,10 +124,20 @@ export function ProductCards({ product }: ProductCardsProps) {
           <motion.img
             src={image}
             alt={name}
-            className="w-full h-full object-cover"
-            whileHover={{ scale: 1.1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="w-full h-full object-cover absolute inset-0 z-10 transition-transform duration-700 group-hover:scale-110"
+            style={{ opacity: isHovered && product.hoverImage ? 0 : 1, transition: 'opacity 0.5s, transform 0.7s' }}
           />
+          {product.hoverImage && (
+            <motion.img
+              src={product.hoverImage}
+              alt={name + ' porté'}
+              className={`w-full h-full absolute inset-0 z-20 transition-transform duration-700 group-hover:scale-110 ${name === 'Air Jordan 1 KO Syracuse' ? 'object-contain bg-black' : 'object-cover'}`}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1.08 : 1.05 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              style={{ pointerEvents: 'none' }}
+            />
+          )}
 
           {/* Shimmer Effect */}
           <motion.div
@@ -218,9 +229,9 @@ export function ProductCards({ product }: ProductCardsProps) {
             transition={{ duration: 0.3, delay: 0.3 }}
           >
             <div className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-white">${price}</span>
+              <span className="text-2xl font-bold text-white">{price} DT</span>
               {originalPrice && originalPrice > price && (
-                <span className="text-lg text-gray-500 line-through">${originalPrice}</span>
+                <span className="text-lg text-gray-500 line-through">{originalPrice} DT</span>
               )}
             </div>
 

@@ -9,96 +9,85 @@ import { CategoryGrid } from "@/components/category-grid"
 import { ProductCards } from "@/components/product-cards"
 import { Footer } from "@/components/footer"
 import { ScrollingBanner } from "@/components/scrolling-banner"
+import { motion } from "framer-motion"
 
 const products = [
   {
-    id: 1,
-    name: "Neon Pulse Hoodie",
-    price: 89,
-    originalPrice: 120,
-    discount: 25,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: true,
-    category: "Hoodies",
-    rating: 4.8,
-    reviews: 124,
-    description: "Premium neon hoodie with LED technology and ultra-soft fabric",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Black", "Purple", "Cyan"],
-    inStock: true,
-  },
-  {
-    id: 2,
-    name: "Urban Glow Sneakers",
-    price: 159,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: false,
-    category: "Shoes",
-    rating: 4.6,
-    reviews: 89,
-    description: "Futuristic sneakers with glow-in-the-dark soles",
-    sizes: ["7", "8", "9", "10", "11", "12"],
-    colors: ["White", "Black", "Blue"],
-    inStock: true,
-  },
-  {
-    id: 3,
-    name: "Street Beam Jacket",
+    id: 101,
+    name: "UNDERCOVER jun takahashi contrast-panel short-sleeve shirt",
     price: 199,
-    originalPrice: 249,
-    discount: 20,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: true,
-    category: "Jackets",
-    rating: 4.9,
-    reviews: 156,
-    description: "Weather-resistant jacket with integrated LED strips",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["Black", "Gray", "Navy"],
-    inStock: true,
-  },
-  {
-    id: 4,
-    name: "Cyber Cargo Pants",
-    price: 129,
-    image: "/placeholder.svg?height=400&width=300",
+    image: "/produits/p1.jpg",
+    hoverImage: "/produits/p11.png",
     isNew: false,
-    category: "Pants",
-    rating: 4.4,
-    reviews: 67,
-    description: "Multi-pocket cargo pants with tech-inspired design",
-    sizes: ["28", "30", "32", "34", "36", "38"],
-    colors: ["Black", "Olive", "Gray"],
-    inStock: false,
-  },
-  {
-    id: 5,
-    name: "Holographic Tee",
-    price: 59,
-    image: "/placeholder.svg?height=400&width=300",
-    isNew: true,
-    category: "T-Shirts",
+    category: "Nouveautés",
     rating: 4.7,
-    reviews: 203,
-    description: "Color-shifting holographic print on premium cotton",
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["White", "Black", "Silver"],
+    reviews: 87,
+    description: "Découvrez notre nouveauté tendance.",
     inStock: true,
   },
   {
-    id: 6,
-    name: "Future Boots",
-    price: 189,
-    originalPrice: 220,
-    discount: 15,
-    image: "/placeholder.svg?height=400&width=300",
+    id: 102,
+    name: "Bones Logo Tee - Black – Feature",
+    price: 249,
+    image: "/produits/p2.jpg",
+    hoverImage: "/produits/P22.png",
     isNew: false,
-    category: "Shoes",
+    category: "Nouveautés",
+    rating: 4.6,
+    reviews: 65,
+    description: "Style et confort réunis dans ce modèle.",
+    inStock: true,
+  },
+  {
+    id: 103,
+    name: "GUESS Noir",
+    price: 179,
+    image: "/produits/P3.jpg",
+    hoverImage: "/produits/P33.png",
+    isNew: false,
+    category: "Nouveautés",
     rating: 4.5,
-    reviews: 78,
-    description: "High-tech boots with smart temperature control",
-    sizes: ["7", "8", "9", "10", "11", "12"],
-    colors: ["Black", "White", "Red"],
+    reviews: 54,
+    description: "Un classique revisité pour la saison.",
+    inStock: true,
+  },
+  {
+    id: 104,
+    name: "Cotton Poplin Shirt - Yellow",
+    price: 299,
+    image: "/produits/P4.jpg",
+    hoverImage: "/produits/P44.png",
+    isNew: false,
+    category: "Nouveautés",
+    rating: 4.8,
+    reviews: 102,
+    description: "L'élégance à l'état pur.",
+    inStock: true,
+  },
+  {
+    id: 105,
+    name: "Neighborhood BB Varsity Jacket Green",
+    price: 159,
+    image: "/produits/P5.jpg",
+    hoverImage: "/produits/P55.png",
+    isNew: false,
+    category: "Nouveautés",
+    rating: 4.4,
+    reviews: 39,
+    description: "Un must-have pour votre collection.",
+    inStock: true,
+  },
+  {
+    id: 106,
+    name: "Sweatshirts Heron Preston Hoodie Black/ Yellow",
+    price: 219,
+    image: "/produits/P6.jpg",
+    hoverImage: "/produits/P66.png",
+    isNew: false,
+    category: "Nouveautés",
+    rating: 4.9,
+    reviews: 120,
+    description: "Performance et style réunis.",
     inStock: true,
   },
 ]
@@ -129,6 +118,27 @@ export default function BoutiquePage() {
               <ProductCards key={product.id} product={product} />
             ))}
           </div>
+          <motion.div
+            className="text-center mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <motion.button
+              className="px-12 py-4 bg-gradient-to-r from-purple-600 via-cyan-600 to-green-500 rounded-xl font-bold text-white text-xl relative overflow-hidden group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10">Consulter tous les produits</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.6 }}
+              />
+            </motion.button>
+          </motion.div>
         </div>
       </section>
       <Footer />
