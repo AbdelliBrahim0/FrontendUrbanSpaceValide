@@ -8,7 +8,7 @@ interface Collection {
   id: string
   name: string
   description: string
-  image: string
+  video: string
   products: number
   trending: boolean
   isNew?: boolean
@@ -20,74 +20,74 @@ interface Collection {
 
 const collections: Collection[] = [
   {
-    id: "neon-nights",
-    name: "Neon Nights",
-    description: "Glow in the dark streetwear collection with LED technology",
-    image: "/placeholder.svg?height=600&width=800",
+    id: "short",
+    name: "Summer Shorts Collection",
+    description: "Collection de shorts tendance pour un style urbain moderne",
+    video: "/collections/short.mp4",
     products: 24,
     trending: true,
     isNew: true,
-    category: "Tech Wear",
+    category: "Shorts",
     colors: ["#8B5CF6", "#06B6D4", "#EC4899"],
-    priceRange: "$89 - $299",
+    priceRange: "89 DT - 299 DT",
   },
   {
-    id: "cyber-punk",
-    name: "Cyber Punk",
-    description: "Futuristic designs inspired by cyberpunk aesthetics",
-    image: "/placeholder.svg?height=600&width=800",
+    id: "swatch",
+    name: "Luxury Watch Collection",
+    description: "Montres et accessoires de luxe pour un look sophistiqué",
+    video: "/collections/swatch.mp4",
     products: 18,
     trending: true,
     isLimited: true,
-    category: "Streetwear",
+    category: "Accessoires",
     colors: ["#000000", "#8B5CF6", "#F59E0B"],
-    priceRange: "$129 - $459",
+    priceRange: "129 DT - 459 DT",
   },
   {
-    id: "holographic-dreams",
-    name: "Holographic Dreams",
-    description: "Iridescent pieces that shift colors in different lights",
-    image: "/placeholder.svg?height=600&width=800",
+    id: "chaussure",
+    name: "Urban Sneakers Collection",
+    description: "Sneakers et chaussures urbaines pour tous les styles",
+    video: "/collections/chaussure.mp4",
     products: 15,
     trending: true,
-    category: "Luxury",
+    category: "Chaussures",
     colors: ["#FFFFFF", "#EC4899", "#10B981"],
-    priceRange: "$199 - $599",
+    priceRange: "199 DT - 599 DT",
   },
   {
-    id: "quantum-basics",
-    name: "Quantum Basics",
-    description: "Essential pieces with a futuristic twist",
-    image: "/placeholder.svg?height=600&width=800",
+    id: "casquette",
+    name: "Streetwear Caps Collection",
+    description: "Casquettes et headwear pour compléter votre look streetwear",
+    video: "/collections/casquette.mp4",
     products: 32,
     trending: false,
     isNew: true,
-    category: "Basics",
+    category: "Headwear",
     colors: ["#000000", "#FFFFFF", "#6B7280"],
-    priceRange: "$49 - $149",
+    priceRange: "49 DT - 149 DT",
   },
   {
-    id: "neural-network",
-    name: "Neural Network",
-    description: "AI-inspired patterns and smart fabric technology",
-    image: "/placeholder.svg?height=600&width=800",
+    id: "tshirt",
+    name: "Comfort Hoodies Collection",
+    description: "Pulls et sweatshirts confortables pour un style urbain",
+    video: "/collections/tshirt.mp4",
     products: 21,
     trending: true,
     isLimited: true,
-    category: "Tech Wear",
+    category: "Pulls",
     colors: ["#8B5CF6", "#06B6D4", "#000000"],
-    priceRange: "$159 - $399",
+    priceRange: "159 DT - 399 DT",
   },
   {
-    id: "digital-renaissance",
-    name: "Digital Renaissance",
-    description: "Classic silhouettes meet digital age innovation",
-    image: "/placeholder.svg?height=600&width=800",
+    id: "pulls",
+    name: "Graphic Tees Collection",
+    description: "T-shirts graphiques et basiques pour un style décontracté",
+    video: "/collections/pulls.mp4",
     products: 27,
     trending: false,
-    category: "Luxury",
+    category: "T-Shirts",
     colors: ["#92400E", "#F59E0B", "#FFFFFF"],
-    priceRange: "$249 - $799",
+    priceRange: "249 DT - 799 DT",
   },
 ]
 
@@ -139,7 +139,7 @@ export function TrendingCollections() {
             COLLECTIONS
           </motion.h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Discover our most popular and innovative collections that are setting trends worldwide
+            Découvrez nos collections les plus populaires et innovantes qui définissent les tendances mondiales
           </p>
         </motion.div>
 
@@ -158,13 +158,15 @@ export function TrendingCollections() {
               whileHover={{ y: -10 }}
             >
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-gray-800 group-hover:border-purple-500/50 transition-all duration-500">
-                {/* Collection Image */}
+                {/* Collection Video */}
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <motion.img
-                    src={collection.image || "/placeholder.svg"}
-                    alt={collection.name}
+                  <video
+                    src={collection.video}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    animate={hoveredCollection === collection.id ? { scale: 1.1 } : { scale: 1 }}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
                   />
 
                   {/* Gradient Overlay */}
@@ -228,32 +230,108 @@ export function TrendingCollections() {
                   </div>
 
                   {/* Collection Name */}
-                  <motion.h3
-                    className="text-2xl font-bold text-white group-hover:text-purple-400 transition-colors duration-300"
-                    animate={hoveredCollection === collection.id ? { scale: 1.05 } : { scale: 1 }}
+                  <motion.div
+                    className="relative overflow-hidden"
+                    animate={hoveredCollection === collection.id ? { scale: 1.02 } : { scale: 1 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    {collection.name}
-                  </motion.h3>
+                    <motion.h3
+                      className={`text-2xl md:text-3xl font-black bg-clip-text text-transparent relative z-10 ${
+                        collection.id === "short" 
+                          ? "bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-500 group-hover:from-orange-300 group-hover:via-yellow-300 group-hover:to-orange-400"
+                          : collection.id === "swatch"
+                          ? "bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600 group-hover:from-yellow-300 group-hover:via-amber-400 group-hover:to-yellow-500"
+                          : collection.id === "chaussure"
+                          ? "bg-gradient-to-r from-blue-400 via-cyan-500 to-blue-600 group-hover:from-blue-300 group-hover:via-cyan-400 group-hover:to-blue-500"
+                          : collection.id === "casquette"
+                          ? "bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 group-hover:from-green-300 group-hover:via-emerald-400 group-hover:to-green-500"
+                          : collection.id === "tshirt"
+                          ? "bg-gradient-to-r from-purple-400 via-pink-500 to-purple-600 group-hover:from-purple-300 group-hover:via-pink-400 group-hover:to-purple-500"
+                          : "bg-gradient-to-r from-red-400 via-pink-500 to-red-600 group-hover:from-red-300 group-hover:via-pink-400 group-hover:to-red-500"
+                      }`}
+                      animate={hoveredCollection === collection.id ? { 
+                        backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                        textShadow: collection.id === "short" 
+                          ? "0 0 20px rgba(251, 146, 60, 0.5)"
+                          : collection.id === "swatch"
+                          ? "0 0 20px rgba(251, 191, 36, 0.5)"
+                          : collection.id === "chaussure"
+                          ? "0 0 20px rgba(96, 165, 250, 0.5)"
+                          : collection.id === "casquette"
+                          ? "0 0 20px rgba(74, 222, 128, 0.5)"
+                          : collection.id === "tshirt"
+                          ? "0 0 20px rgba(139, 92, 246, 0.5)"
+                          : "0 0 20px rgba(239, 68, 68, 0.5)"
+                      } : { 
+                        backgroundPosition: "0% 50%",
+                        textShadow: "none"
+                      }}
+                      style={{
+                        backgroundSize: "200% 200%",
+                        filter: hoveredCollection === collection.id ? 
+                          (collection.id === "short" 
+                            ? "drop-shadow(0 0 10px rgba(251, 146, 60, 0.3))"
+                            : collection.id === "swatch"
+                            ? "drop-shadow(0 0 10px rgba(251, 191, 36, 0.3))"
+                            : collection.id === "chaussure"
+                            ? "drop-shadow(0 0 10px rgba(96, 165, 250, 0.3))"
+                            : collection.id === "casquette"
+                            ? "drop-shadow(0 0 10px rgba(74, 222, 128, 0.3))"
+                            : collection.id === "tshirt"
+                            ? "drop-shadow(0 0 10px rgba(139, 92, 246, 0.3))"
+                            : "drop-shadow(0 0 10px rgba(239, 68, 68, 0.3))")
+                          : "none"
+                      }}
+                      transition={{ 
+                        duration: 0.5,
+                        backgroundPosition: { duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }
+                      }}
+                    >
+                      {collection.name}
+                    </motion.h3>
+                    
+                    {/* Animated underline with collection-specific colors */}
+                    <motion.div
+                      className={`absolute bottom-0 left-0 h-0.5 ${
+                        collection.id === "short" 
+                          ? "bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-600"
+                          : collection.id === "swatch"
+                          ? "bg-gradient-to-r from-yellow-500 via-amber-600 to-yellow-700"
+                          : collection.id === "chaussure"
+                          ? "bg-gradient-to-r from-blue-500 via-cyan-600 to-blue-700"
+                          : collection.id === "casquette"
+                          ? "bg-gradient-to-r from-green-500 via-emerald-600 to-green-700"
+                          : collection.id === "tshirt"
+                          ? "bg-gradient-to-r from-purple-500 via-pink-600 to-purple-700"
+                          : "bg-gradient-to-r from-red-500 via-pink-600 to-red-700"
+                      }`}
+                      initial={{ width: 0 }}
+                      animate={hoveredCollection === collection.id ? { width: "100%" } : { width: 0 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                    />
+                    
+                    {/* Glow effect with collection-specific colors */}
+                    <motion.div
+                      className={`absolute inset-0 blur-xl opacity-0 ${
+                        collection.id === "short" 
+                          ? "bg-gradient-to-r from-orange-500/20 via-yellow-500/20 to-orange-600/20"
+                          : collection.id === "swatch"
+                          ? "bg-gradient-to-r from-yellow-500/20 via-amber-600/20 to-yellow-700/20"
+                          : collection.id === "chaussure"
+                          ? "bg-gradient-to-r from-blue-500/20 via-cyan-600/20 to-blue-700/20"
+                          : collection.id === "casquette"
+                          ? "bg-gradient-to-r from-green-500/20 via-emerald-600/20 to-green-700/20"
+                          : collection.id === "tshirt"
+                          ? "bg-gradient-to-r from-purple-500/20 via-pink-600/20 to-purple-700/20"
+                          : "bg-gradient-to-r from-red-500/20 via-pink-600/20 to-red-700/20"
+                      }`}
+                      animate={hoveredCollection === collection.id ? { opacity: 1 } : { opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                    />
+                  </motion.div>
 
                   {/* Description */}
                   <p className="text-gray-400 leading-relaxed">{collection.description}</p>
-
-                  {/* Color Palette */}
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm text-gray-500">Colors:</span>
-                    <div className="flex space-x-2">
-                      {collection.colors.map((color, colorIndex) => (
-                        <motion.div
-                          key={colorIndex}
-                          className="w-6 h-6 rounded-full border-2 border-gray-600"
-                          style={{ backgroundColor: color }}
-                          whileHover={{ scale: 1.2 }}
-                          animate={hoveredCollection === collection.id ? { scale: [1, 1.1, 1] } : {}}
-                          transition={{ delay: colorIndex * 0.1 }}
-                        />
-                      ))}
-                    </div>
-                  </div>
 
                   {/* Action Button */}
                   <motion.button
@@ -262,7 +340,7 @@ export function TrendingCollections() {
                     whileTap={{ scale: 0.98 }}
                   >
                     <span className="relative z-10 flex items-center justify-center space-x-2">
-                      <span>Explore Collection</span>
+                      <span>Explorer la Collection</span>
                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
                     </span>
                     <motion.div
@@ -316,7 +394,7 @@ export function TrendingCollections() {
           >
             <span className="relative z-10 flex items-center space-x-2">
               <Sparkles className="w-5 h-5" />
-              <span>View All Collections</span>
+              <span>Voir Toutes les Collections</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </span>
             <motion.div

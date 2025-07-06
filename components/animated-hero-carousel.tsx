@@ -10,7 +10,7 @@ const slides = [
     title: "Streetwear du Futur",
     subtitle: "Collection 2024",
     description: "Découvrez la nouvelle génération de mode urbaine",
-    image: "/hero/A11.jpg",
+    image: "/hero/plateform1.jpg",
     cta: "Découvrir la collection",
   },
   {
@@ -18,7 +18,7 @@ const slides = [
     title: "Rêves Néon",
     subtitle: "Édition Limitée",
     description: "Collection phosphorescente avec des matériaux premium",
-    image: "/hero/A111.jpg",
+    image: "/hero/palteform2.jpg",
     cta: "Explorer",
   },
   {
@@ -122,14 +122,29 @@ export function AnimatedHeroCarousel() {
                 {slides[currentSlide].subtitle}
               </motion.p>
 
-              <motion.h1
-                className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent"
+              <motion.div
+                className="relative mb-6"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                {slides[currentSlide].title}
-              </motion.h1>
+                <motion.h1
+                  className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent"
+                >
+                  {slides[currentSlide].title}
+                </motion.h1>
+                {slides[currentSlide].id === 1 && (
+                  <motion.img
+                    src="/hero/Z1.png"
+                    alt="Streetwear du Futur"
+                    className="absolute -right-[40rem] top-1/4 -translate-y-1/2 w-96 h-96 md:w-[28rem] md:h-[28rem] object-contain"
+                    initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  />
+                )}
+              </motion.div>
 
               <motion.p
                 className="text-xl text-gray-300 mb-8 max-w-lg"
