@@ -150,36 +150,68 @@ export default function BoutiquePage() {
               />
             </motion.button>
           </motion.div>
+
+          {/* Animation BlackFriday */}
+          <motion.div
+            className="flex flex-col items-center justify-center my-20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <motion.span
+              className="text-7xl md:text-8xl font-extrabold bg-gradient-to-r from-yellow-400 via-red-600 to-black bg-clip-text text-transparent drop-shadow-lg mb-10"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: [0.8, 1.1, 1, 0.8] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 1 }}
+            >
+              BlackFriday
+            </motion.span>
+            <div className="flex flex-wrap gap-8 justify-center items-center mb-8">
+              {["BF1.jpg", "BF2.jpg", "BF3.jpg", "BF4.png"].map((img, idx) => (
+                <motion.div
+                  key={img}
+                  className="relative group overflow-hidden rounded-3xl shadow-2xl border-4 border-yellow-400 bg-black"
+                  initial={{ opacity: 0, y: 60, scale: 0.8 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  whileHover={{ scale: 1.08, rotate: 2 }}
+                  transition={{ duration: 0.7, delay: idx * 0.2, type: 'spring', bounce: 0.4 }}
+                >
+                  <img
+                    src={`/blackfriday/${img}`}
+                    alt={`Produit Black Friday ${idx + 1}`}
+                    className="w-64 h-80 object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <motion.div
+                    className="absolute top-4 left-4 bg-gradient-to-r from-red-600 via-yellow-400 to-black text-white font-black px-4 py-2 rounded-full text-lg shadow-xl animate-pulse"
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 + idx * 0.2 }}
+                  >
+                    -70% Black Friday
+                  </motion.div>
+                  <motion.div
+                    className="absolute bottom-4 right-4 bg-black/80 text-yellow-400 font-bold px-3 py-1 rounded-xl text-base shadow-lg"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.7 + idx * 0.2 }}
+                  >
+                    Offre Limitée !
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+            <motion.button
+              className="mt-4 px-10 py-4 bg-gradient-to-r from-yellow-400 via-red-600 to-black text-white font-black text-2xl rounded-full shadow-2xl hover:scale-105 transition-transform duration-300"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => window.location.href = '/blackfriday'}
+            >
+              Consulter toutes les offres Black Friday
+            </motion.button>
+          </motion.div>
           
         </div>
       </section>
-
-      {/* Logo Scrolling Banner déplacé en bas */}
-      <motion.div 
-        className="mt-16"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        viewport={{ once: true }}
-      >
-        <motion.h3 
-          className="text-4xl md:text-5xl lg:text-6xl font-black text-center mb-12 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          Nos Marques Partenaires
-        </motion.h3>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <LogoScrollingBanner logos={brandLogos} />
-        </motion.div>
-      </motion.div>
 
       {/* Vidéo avec background rgb(82, 77, 76) sur toute la largeur */}
       <motion.div 
@@ -690,6 +722,34 @@ export default function BoutiquePage() {
           Votre navigateur ne supporte pas la lecture de vidéos.
         </video>
       </motion.div>
+
+      {/* Logo Scrolling Banner déplacé en bas */}
+      <motion.div 
+        className="mt-16"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        viewport={{ once: true }}
+      >
+        <motion.h3 
+          className="text-4xl md:text-5xl lg:text-6xl font-black text-center mb-12 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          viewport={{ once: true }}
+        >
+          Nos Marques Partenaires
+        </motion.h3>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <LogoScrollingBanner logos={brandLogos} />
+        </motion.div>
+      </motion.div>
+
       <Footer />
     </main>
   )
