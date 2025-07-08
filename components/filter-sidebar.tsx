@@ -10,10 +10,16 @@ interface FilterSidebarProps {
 }
 
 const filterCategories = {
-  Category: ["Hoodies", "T-Shirts", "Jackets", "Pants", "Shoes", "Accessories"],
-  Size: ["XS", "S", "M", "L", "XL", "XXL"],
-  Color: ["Black", "White", "Purple", "Cyan", "Pink", "Green"],
-  Price: ["Under $50", "$50 - $100", "$100 - $150", "$150 - $200", "Over $200"],
+  "Catégorie": ["Sweats à capuche", "T-Shirts", "Vestes", "Pantalons", "Chaussures", "Accessoires"],
+  "Taille": ["XS", "S", "M", "L", "XL", "XXL"],
+  "Couleur": ["Noir", "Blanc", "Violet", "Cyan", "Rose", "Vert"],
+  "Prix": [
+    "Moins de 50 DT",
+    "50 DT - 100 DT",
+    "100 DT - 150 DT",
+    "150 DT - 200 DT",
+    "Plus de 200 DT"
+  ],
 }
 
 export function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {

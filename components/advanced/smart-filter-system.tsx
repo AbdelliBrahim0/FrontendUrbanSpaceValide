@@ -33,34 +33,34 @@ export function SmartFilterSystem({ isOpen, onClose, onApplyFilters }: SmartFilt
   })
 
   const categories = [
-    { name: "Hoodies & Sweatshirts", count: 156, icon: "👕" },
-    { name: "T-Shirts & Tops", count: 234, icon: "👔" },
-    { name: "Jackets & Coats", count: 89, icon: "🧥" },
-    { name: "Pants & Jeans", count: 167, icon: "👖" },
-    { name: "Footwear", count: 198, icon: "👟" },
-    { name: "Accessories", count: 145, icon: "🎒" },
+    { name: "Sweats à capuche", count: 156, icon: "👕" },
+    { name: "T-Shirts & Hauts", count: 234, icon: "👔" },
+    { name: "Vestes & Manteaux", count: 89, icon: "🧥" },
+    { name: "Pantalons & Jeans", count: 167, icon: "👖" },
+    { name: "Chaussures", count: 198, icon: "👟" },
+    { name: "Accessoires", count: 145, icon: "🎒" },
     { name: "Tech Wear", count: 67, icon: "⚡" },
-    { name: "Luxury Collection", count: 34, icon: "💎" },
-    { name: "Limited Edition", count: 23, icon: "🔥" },
-    { name: "Sustainable", count: 78, icon: "🌱" },
+    { name: "Collection Luxe", count: 34, icon: "💎" },
+    { name: "Édition Limitée", count: 23, icon: "🔥" },
+    { name: "Écoresponsable", count: 78, icon: "🌱" },
     { name: "Streetwear", count: 189, icon: "🏙️" },
-    { name: "Athletic", count: 123, icon: "🏃" },
+    { name: "Sportif", count: 123, icon: "🏃" },
   ]
 
   const sizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"]
   const colors = [
-    { name: "Black", hex: "#000000" },
-    { name: "White", hex: "#FFFFFF" },
-    { name: "Purple", hex: "#8B5CF6" },
+    { name: "Noir", hex: "#000000" },
+    { name: "Blanc", hex: "#FFFFFF" },
+    { name: "Violet", hex: "#8B5CF6" },
     { name: "Cyan", hex: "#06B6D4" },
-    { name: "Pink", hex: "#EC4899" },
-    { name: "Red", hex: "#EF4444" },
-    { name: "Blue", hex: "#3B82F6" },
-    { name: "Green", hex: "#10B981" },
-    { name: "Yellow", hex: "#F59E0B" },
+    { name: "Rose", hex: "#EC4899" },
+    { name: "Rouge", hex: "#EF4444" },
+    { name: "Bleu", hex: "#3B82F6" },
+    { name: "Vert", hex: "#10B981" },
+    { name: "Jaune", hex: "#F59E0B" },
     { name: "Orange", hex: "#F97316" },
-    { name: "Gray", hex: "#6B7280" },
-    { name: "Navy", hex: "#1E3A8A" },
+    { name: "Gris", hex: "#6B7280" },
+    { name: "Marine", hex: "#1E3A8A" },
   ]
 
   const brands = [
@@ -86,20 +86,20 @@ export function SmartFilterSystem({ isOpen, onClose, onApplyFilters }: SmartFilt
   ]
 
   const priceRanges = [
-    { label: "Under $50", min: 0, max: 50 },
-    { label: "$50 - $100", min: 50, max: 100 },
-    { label: "$100 - $200", min: 100, max: 200 },
-    { label: "$200 - $300", min: 200, max: 300 },
-    { label: "Over $300", min: 300, max: 1000 },
+    { label: "Moins de 50 DT", min: 0, max: 50 },
+    { label: "50 DT - 100 DT", min: 50, max: 100 },
+    { label: "100 DT - 200 DT", min: 100, max: 200 },
+    { label: "200 DT - 300 DT", min: 200, max: 300 },
+    { label: "Plus de 300 DT", min: 300, max: 1000 },
   ]
 
   const tabs = [
-    { id: "categories", label: "Categories", icon: Filter },
-    { id: "price", label: "Price", icon: Tag },
-    { id: "size", label: "Size", icon: Ruler },
-    { id: "color", label: "Color", icon: Palette },
-    { id: "rating", label: "Rating", icon: Star },
-    { id: "features", label: "Features", icon: Zap },
+    { id: "categories", label: "Catégories", icon: Filter },
+    { id: "price", label: "Prix", icon: Tag },
+    { id: "size", label: "Taille", icon: Ruler },
+    { id: "color", label: "Couleur", icon: Palette },
+    { id: "rating", label: "Note", icon: Star },
+    { id: "features", label: "Caractéristiques", icon: Zap },
   ]
 
   const handleCategoryToggle = (category: string) => {
@@ -189,7 +189,7 @@ export function SmartFilterSystem({ isOpen, onClose, onApplyFilters }: SmartFilt
             <div className="flex items-center justify-between p-6 border-b border-gray-800">
               <div className="flex items-center space-x-3">
                 <Filter className="w-6 h-6 text-purple-400" />
-                <h2 className="text-xl font-bold text-white">Smart Filters</h2>
+                <h2 className="text-xl font-bold text-white">Filtres Intelligents</h2>
                 {getActiveFiltersCount() > 0 && (
                   <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded-full">
                     {getActiveFiltersCount()}
@@ -409,13 +409,13 @@ export function SmartFilterSystem({ isOpen, onClose, onApplyFilters }: SmartFilt
                   onClick={clearAllFilters}
                   className="flex-1 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors"
                 >
-                  Clear All
+                  Réinitialiser
                 </button>
                 <button
                   onClick={() => onApplyFilters(filters)}
                   className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white rounded-lg transition-all"
                 >
-                  Apply Filters
+                  Appliquer les filtres
                 </button>
               </div>
             </div>
@@ -575,10 +575,10 @@ export function SmartFilterSidebar() {
     <aside className="w-full max-w-xs bg-gray-900 border-r border-gray-800 h-full p-6 hidden md:block">
       <div className="flex items-center space-x-3 mb-6">
         <Filter className="w-6 h-6 text-purple-400" />
-        <h2 className="text-xl font-bold text-white">Smart Filters</h2>
+        <h2 className="text-xl font-bold text-white">Filtres Intelligents</h2>
       </div>
       <div>
-        <h3 className="text-purple-400 font-semibold mb-2">Categories</h3>
+        <h3 className="text-purple-400 font-semibold mb-2">Catégories</h3>
         <ul className="space-y-2">
           {categories.map((cat) => (
             <li key={cat.name}>
