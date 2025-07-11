@@ -6,6 +6,8 @@ import { Search, ShoppingBag, User, Menu, X, Filter, Heart, Bell, Grid3X3 } from
 import { CartPreview } from "./cart-preview"
 import { SmartFilterSystem } from "./advanced/smart-filter-system"
 import { MegaCategoriesMenu } from "./advanced/mega-categories-menu"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { AuthDialog } from "./user-account/auth-dialog"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -17,6 +19,7 @@ export function Navbar() {
   const [searchQuery, setSearchQuery] = useState("")
   const [trendingSearches, setTrendingSearches] = useState(["Neon Hoodies", "Cyber Sneakers", "LED Jackets", "Holographic Tees", "Future Pants"])
   const [recentSearches, setRecentSearches] = useState(["Purple Hoodie", "Black Sneakers", "Streetwear", "Urban Style"])
+  const [isAuthOpen, setIsAuthOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -188,13 +191,15 @@ export function Navbar() {
               </motion.button>
 
               {/* User */}
-              <motion.button
-                className="p-2 text-gray-300 hover:text-white transition-colors duration-300"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <User className="w-6 h-6" />
-              </motion.button>
+              <a href="/auth">
+                <motion.button
+                  className="p-2 text-gray-300 hover:text-white transition-colors duration-300"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <User className="w-6 h-6" />
+                </motion.button>
+              </a>
 
               {/* Mobile Menu Toggle */}
               <motion.button
@@ -278,6 +283,8 @@ export function Navbar() {
 
       {/* Mega Categories Menu */}
       <MegaCategoriesMenu isOpen={isCategoriesOpen} onClose={() => setIsCategoriesOpen(false)} />
+
+      {/* Auth Dialog désactivé, redirection vers /auth */}
     </>
   )
 }
