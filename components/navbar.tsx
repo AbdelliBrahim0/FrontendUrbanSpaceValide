@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Search, ShoppingBag, User, Menu, X, Filter, Heart, Bell, Grid3X3 } from "lucide-react"
+import { Search, ShoppingBag, User, Menu, X, Filter, Heart, Bell, Grid3X3, Settings, LogOut, ChevronDown } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { CartPreview } from "./cart-preview"
 import { SmartFilterSystem } from "./advanced/smart-filter-system"
 import { MegaCategoriesMenu } from "./advanced/mega-categories-menu"
@@ -20,6 +21,9 @@ export function Navbar() {
   const [trendingSearches, setTrendingSearches] = useState(["Neon Hoodies", "Cyber Sneakers", "LED Jackets", "Holographic Tees", "Future Pants"])
   const [recentSearches, setRecentSearches] = useState(["Purple Hoodie", "Black Sneakers", "Streetwear", "Urban Style"])
   const [isAuthOpen, setIsAuthOpen] = useState(false)
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)
+  const [user, setUser] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +32,25 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  useEffect(() => {
+    // Vérifier si l'utilisateur est connecté (localStorage)
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      setUser(JSON.parse(userData))
+    }
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    setUser(null)
+    setIsUserDropdownOpen(false)
+    router.push('/')
+  }
+
+  const handleLogin = () => {
+    router.push('/auth')
+  }
 
   return (
     <>
@@ -191,15 +214,72 @@ export function Navbar() {
               </motion.button>
 
               {/* User */}
-              <a href="/auth">
-                <motion.button
-                  className="p-2 text-gray-300 hover:text-white transition-colors duration-300"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <User className="w-6 h-6" />
-                </motion.button>
-              </a>
+              <div className="relative">
+                {user ? (
+                  // Utilisateur connecté - Dropdown
+                  <motion.div className="relative">
+                    <motion.button
+                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                      className="flex items-center space-x-2 p-2 text-gray-300 hover:text-white transition-colors duration-300 rounded-lg hover:bg-white/10"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <User className="w-5 h-5" />
+                      <span className="text-sm font-medium">{user.name || 'Utilisateur'}</span>
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isUserDropdownOpen ? 'rotate-180' : ''}`} />
+                    </motion.button>
+                    
+                    <AnimatePresence>
+                      {isUserDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute right-0 mt-2 w-64 bg-gray-900 border border-gray-800 rounded-xl shadow-2xl z-50 overflow-hidden"
+                        >
+                          <div className="p-4 border-b border-gray-800">
+                            <div className="text-white font-semibold">{user.name || 'Utilisateur'}</div>
+                            <div className="text-gray-400 text-sm">{user.email}</div>
+                          </div>
+                          
+                          <div className="p-2">
+                            <motion.a
+                              href="/account"
+                              className="flex items-center space-x-3 px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200"
+                              whileHover={{ x: 5 }}
+                              onClick={() => setIsUserDropdownOpen(false)}
+                            >
+                              <Settings className="w-4 h-4" />
+                              <span>Paramètres</span>
+                            </motion.a>
+                            
+                            <motion.button
+                              onClick={handleLogout}
+                              className="flex items-center space-x-3 px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors duration-200 w-full text-left"
+                              whileHover={{ x: 5 }}
+                            >
+                              <LogOut className="w-4 h-4" />
+                              <span>Se déconnecter</span>
+                            </motion.button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                ) : (
+                  // Utilisateur non connecté - Bouton Compte
+                  <motion.button
+                    onClick={handleLogin}
+                    className="flex items-center space-x-2 p-2 text-gray-300 hover:text-white transition-colors duration-300 rounded-lg hover:bg-white/10"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <User className="w-5 h-5" />
+                    <span className="text-sm font-medium">Compte</span>
+                  </motion.button>
+                )}
+              </div>
 
               {/* Mobile Menu Toggle */}
               <motion.button

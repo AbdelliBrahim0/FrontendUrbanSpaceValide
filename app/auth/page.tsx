@@ -99,7 +99,12 @@ export default function AuthPage() {
       } else {
         setLoginSuccess(true)
         setLoginData({ email: "", password: "" })
+        // Sauvegarder les données utilisateur pour le navbar
         if (typeof window !== "undefined") {
+          localStorage.setItem('user', JSON.stringify({
+            name: loginData.email.split('@')[0], // Utilise le nom avant @ comme nom d'affichage
+            email: loginData.email
+          }));
           localStorage.setItem('showWelcome', '1');
         }
         router.push("/boutique")
