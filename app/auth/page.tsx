@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Sparkles } from "lucide-react"
 import { ParticleSystem } from "@/components/advanced/particle-system"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/lib/auth-context"
 
 export default function AuthPage() {
   const [tab, setTab] = useState("login")
@@ -51,8 +52,24 @@ export default function AuthPage() {
         const errorData = await response.json()
         setSignupError(errorData.message || "Erreur lors de l'inscription.")
       } else {
-        setSignupSuccess("Inscription réussie ! Vous pouvez maintenant vous connecter.")
+        setSignupSuccess("Inscription réussie ! Vous êtes maintenant connecté.")
         setSignupData({ name: "", email: "", phone: "", address: "", password: "" })
+        
+        // Connecter automatiquement l'utilisateur après l'inscription
+        const userData = {
+          name: signupData.name,
+          email: signupData.email
+        }
+        login(userData) // Utiliser le contexte d'authentification
+        
+        if (typeof window !== "undefined") {
+          localStorage.setItem('showWelcome', '1');
+        }
+        
+        // Rediriger vers la boutique après un court délai
+        setTimeout(() => {
+          router.push("/boutique")
+        }, 1500)
       }
     } catch (err) {
       setSignupError("Erreur réseau ou serveur.")
@@ -69,6 +86,7 @@ export default function AuthPage() {
   const [loginError, setLoginError] = useState("")
   const [loginSuccess, setLoginSuccess] = useState(false)
   const router = useRouter();
+  const { login } = useAuth()
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData({
@@ -99,12 +117,15 @@ export default function AuthPage() {
       } else {
         setLoginSuccess(true)
         setLoginData({ email: "", password: "" })
-        // Sauvegarder les données utilisateur pour le navbar
+        
+        // Utiliser le contexte d'authentification pour synchroniser l'état
+        const userData = {
+          name: loginData.email.split('@')[0], // Utilise le nom avant @ comme nom d'affichage
+          email: loginData.email
+        }
+        login(userData) // Cette fonction met à jour le contexte global
+        
         if (typeof window !== "undefined") {
-          localStorage.setItem('user', JSON.stringify({
-            name: loginData.email.split('@')[0], // Utilise le nom avant @ comme nom d'affichage
-            email: loginData.email
-          }));
           localStorage.setItem('showWelcome', '1');
         }
         router.push("/boutique")

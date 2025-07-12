@@ -9,6 +9,7 @@ import { SmartFilterSystem } from "./advanced/smart-filter-system"
 import { MegaCategoriesMenu } from "./advanced/mega-categories-menu"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { AuthDialog } from "./user-account/auth-dialog"
+import { useAuth } from "@/lib/auth-context"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -22,7 +23,7 @@ export function Navbar() {
   const [recentSearches, setRecentSearches] = useState(["Purple Hoodie", "Black Sneakers", "Streetwear", "Urban Style"])
   const [isAuthOpen, setIsAuthOpen] = useState(false)
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)
-  const [user, setUser] = useState(null)
+  const { user, logout } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -33,19 +34,18 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    // Vérifier si l'utilisateur est connecté (localStorage)
-    const userData = localStorage.getItem('user')
-    if (userData) {
-      setUser(JSON.parse(userData))
-    }
-  }, [])
-
   const handleLogout = () => {
-    localStorage.removeItem('user')
-    setUser(null)
+    // Fermer d'abord le dropdown pour éviter les animations en cours
     setIsUserDropdownOpen(false)
-    router.push('/')
+    
+    // Déconnecter l'utilisateur
+    logout()
+    
+    // Utiliser window.location.href pour éviter les conflits d'animation
+    // et forcer un rechargement propre de la page
+    setTimeout(() => {
+      window.location.href = '/'
+    }, 100)
   }
 
   const handleLogin = () => {

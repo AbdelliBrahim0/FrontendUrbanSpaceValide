@@ -31,6 +31,7 @@ export function ParticleSystem({
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
   const animationRef = useRef<number>()
+  const isActiveRef = useRef(true)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -39,7 +40,11 @@ export function ParticleSystem({
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
+    // Marquer comme actif
+    isActiveRef.current = true
+
     const resizeCanvas = () => {
+      if (!isActiveRef.current) return
       canvas.width = canvas.offsetWidth * window.devicePixelRatio
       canvas.height = canvas.offsetHeight * window.devicePixelRatio
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
@@ -62,6 +67,8 @@ export function ParticleSystem({
     }
 
     const updateParticles = () => {
+      if (!isActiveRef.current) return
+      
       particlesRef.current.forEach((particle, index) => {
         // Update position
         particle.x += particle.vx
@@ -96,6 +103,8 @@ export function ParticleSystem({
     }
 
     const drawParticles = () => {
+      if (!isActiveRef.current) return
+      
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
 
       particlesRef.current.forEach((particle) => {
@@ -134,12 +143,16 @@ export function ParticleSystem({
     }
 
     const animate = () => {
+      if (!isActiveRef.current) return
+      
       updateParticles()
       drawParticles()
       animationRef.current = requestAnimationFrame(animate)
     }
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isActiveRef.current) return
+      
       const rect = canvas.getBoundingClientRect()
       mouseRef.current.x = e.clientX - rect.left
       mouseRef.current.y = e.clientY - rect.top
@@ -155,12 +168,16 @@ export function ParticleSystem({
     }
 
     return () => {
+      // Marquer comme inactif pour arrêter toutes les animations
+      isActiveRef.current = false
+      
       window.removeEventListener("resize", resizeCanvas)
       if (interactive) {
         canvas.removeEventListener("mousemove", handleMouseMove)
       }
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
+        animationRef.current = undefined
       }
     }
   }, [particleCount, colors, interactive])
