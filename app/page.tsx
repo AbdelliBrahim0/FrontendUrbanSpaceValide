@@ -16,14 +16,60 @@ export default function Home() {
       setCurrent((prev) => (prev + 1) % videos.length)
     }
     video.addEventListener("ended", handleEnded)
-    return () => video.removeEventListener("ended", handleEnded)
+    // Pause and cleanup on unmount to avoid play() interruption during route changes
+    return () => {
+      video.removeEventListener("ended", handleEnded)
+      try {
+        video.pause()
+        // Release src to stop loading
+        video.removeAttribute("src")
+        video.load()
+      } catch {}
+    }
   }, [current])
 
   useEffect(() => {
-    // Force reload video when current changes
-    if (videoRef.current) {
-      videoRef.current.load()
-      videoRef.current.play()
+    // Safe reload and play when current changes
+    const video = videoRef.current
+    if (!video) return
+
+    let cancelled = false
+    // Pause before switching source to avoid race
+    try { video.pause() } catch {}
+    // Force reload, then wait for data before attempting play
+    try { video.load() } catch {}
+
+    const tryPlay = () => {
+      if (cancelled) return
+      const p = video.play()
+      if (p && typeof p.then === "function") {
+        p.catch(() => {
+          // Ignore play interruption (e.g., during navigation)
+        })
+      }
+    }
+
+    if (video.readyState >= 2) {
+      tryPlay()
+    } else {
+      const onLoaded = () => {
+        video.removeEventListener("loadeddata", onLoaded)
+        tryPlay()
+      }
+      video.addEventListener("loadeddata", onLoaded)
+    }
+
+    // Pause when tab hidden to reduce interruptions
+    const onVisibility = () => {
+      if (document.hidden) {
+        try { video.pause() } catch {}
+      }
+    }
+    document.addEventListener("visibilitychange", onVisibility)
+
+    return () => {
+      cancelled = true
+      document.removeEventListener("visibilitychange", onVisibility)
     }
   }, [current])
 
@@ -37,6 +83,7 @@ export default function Home() {
         autoPlay
         muted
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
         style={{ pointerEvents: "none" }}
       />

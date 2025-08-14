@@ -7,11 +7,12 @@ import { usePathname } from "next/navigation"
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isHome = pathname === "/"
+  const isAdmin = pathname?.startsWith("/admin")
   return (
     <div className="relative">
-      {!isHome && <Navbar />}
+      {!isHome && !isAdmin && <Navbar />}
       {children}
-      {!isHome && <MobileNavigation />}
+      {!isHome && !isAdmin && <MobileNavigation />}
     </div>
   )
-} 
+}
