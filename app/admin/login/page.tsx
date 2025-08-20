@@ -3,7 +3,9 @@
 import Image from "next/image"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import BackToDashboardButton from "@/components/admin/BackToDashboardButton"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -54,14 +56,17 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-[100svh] bg-[#06080d] text-white relative overflow-hidden">
-      {/* Gradient Orbs */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 -left-16 h-96 w-96 rounded-full bg-[#0db9b5]/15 blur-3xl" />
-        <div className="absolute -bottom-24 -right-16 h-[28rem] w-[28rem] rounded-full bg-fuchsia-500/10 blur-3xl" />
+    <div className="min-h-screen bg-[#06080d] flex items-center justify-center p-4 relative">
+      <div className="absolute top-4 left-4">
+        <BackToDashboardButton />
       </div>
+      <div className="w-full max-w-md">
+        {/* Gradient Orbs */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute -top-32 -left-16 h-96 w-96 rounded-full bg-[#0db9b5]/15 blur-3xl" />
+          <div className="absolute -bottom-24 -right-16 h-[28rem] w-[28rem] rounded-full bg-fuchsia-500/10 blur-3xl" />
+        </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col items-center justify-center px-6 py-10">
         {/* Brand */}
         <div className="mb-10 flex items-center gap-3">
           <div className="h-10 w-10 overflow-hidden rounded-lg ring-1 ring-white/10">

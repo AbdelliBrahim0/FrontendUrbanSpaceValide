@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
+import BackToDashboardButton from "@/components/admin/BackToDashboardButton"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -56,7 +57,7 @@ export default function AdminUsersPage() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return users
-    return users.filter((u) => u.username.toLowerCase().includes(q))
+    return users.filter((u: User) => u.username.toLowerCase().includes(q))
   }, [query, users])
 
   if (loading) {
@@ -68,8 +69,9 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="min-h-[100svh] bg-[#06080d] text-white">
-      <div className="mx-auto max-w-7xl px-6 py-10">
+    <div className="min-h-screen bg-[#06080d] text-white p-6">
+      <div className="max-w-7xl mx-auto">
+        <BackToDashboardButton />
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Tous les utilisateurs</h1>

@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Search, ShoppingBag, User, Menu, X, Filter, Heart, Bell, Grid3X3, Settings, LogOut, ChevronDown } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { CartPreview } from "./cart-preview"
-import { SmartFilterSystem } from "./advanced/smart-filter-system"
-import { MegaCategoriesMenu } from "./advanced/mega-categories-menu"
+import { DynamicFilterSystem } from "./advanced/dynamic-filter-system"
+import { DynamicCategoriesMenu } from "./advanced/dynamic-categories-menu"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { AuthDialog } from "./user-account/auth-dialog"
 import { useAuth } from "@/lib/auth-context"
@@ -354,15 +354,15 @@ export function Navbar() {
       {/* Cart Preview */}
       <CartPreview isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-      {/* Smart Filter System */}
-      <SmartFilterSystem
+      {/* Dynamic Filter System */}
+      <DynamicFilterSystem
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
-        onApplyFilters={(filters) => console.log("Filters:", filters)}
+        onApplyFilters={(filters) => console.log("Filters applied:", filters)}
       />
 
       {/* Mega Categories Menu */}
-      <MegaCategoriesMenu isOpen={isCategoriesOpen} onClose={() => setIsCategoriesOpen(false)} />
+      <DynamicCategoriesMenu isOpen={isCategoriesOpen} onClose={() => setIsCategoriesOpen(false)} />
 
       {/* Auth Dialog désactivé, redirection vers /auth */}
     </>

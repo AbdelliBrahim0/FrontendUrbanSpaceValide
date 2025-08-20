@@ -184,47 +184,90 @@ export default function AdminDashboardPage() {
 
         {/* Entity Cards */}
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {["Utilisateurs", "Produits", "Catégories", "Sous-catégories"].map((title, i) => (
-            <div key={i} className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl">
-              <div className="mb-3 flex items-center justify-between">
-                <h4 className="text-sm font-medium text-white/80">{title}</h4>
-                <span className="text-xs text-white/50">Statique</span>
-              </div>
-              <ul className="space-y-2 text-sm text-white/70">
-                <li className="flex items-center justify-between">
-                  <span>Dernière maj</span>
-                  <span className="text-white/50">il y a 2j</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Éléments actifs</span>
-                  <span className="text-white/50">—</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Actions rapides</span>
-                  {title === "Utilisateurs" ? (
-                    <Button
-                      size="sm"
-                      className="h-7 bg-[#0db9b5] text-black hover:bg-[#0db9b5]/90"
-                      onClick={() => setUsersModalOpen(true)}
+          {["Utilisateurs", "Produits", "Catégories", "Sous-catégories"].map((title, i) => {
+            const handleAction = (e: React.MouseEvent) => {
+              e.preventDefault();
+              if (title === "Utilisateurs") {
+                setUsersModalOpen(true);
+              } else {
+                setActionsCardName(title);
+                setActionsModalOpen(true);
+              }
+            };
+            
+            return (
+              <div key={i} className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl transition-all hover:border-white/20 hover:shadow-lg hover:shadow-[#0db9b5]/10">
+                <div className="mb-3 flex items-center justify-between">
+                  <h4 className="text-sm font-medium text-white/80">{title}</h4>
+                  <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs text-white/60">
+                    {title === "Utilisateurs" ? kpis.users.toLocaleString() :
+                     title === "Produits" ? kpis.products.toLocaleString() :
+                     title === "Catégories" ? kpis.categories.toLocaleString() :
+                     kpis.subcategories.toLocaleString()}
+                  </span>
+                </div>
+                <ul className="space-y-2 text-sm text-white/70">
+                  <li className="flex items-center justify-between">
+                    <span>Dernière maj</span>
+                    <span className="text-white/50">il y a 2j</span>
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>Éléments actifs</span>
+                    <span className="text-white/50">—</span>
+                  </li>
+                  <li className="flex items-center justify-between">
+                    <span>Actions rapides</span>
+                    {title === "Utilisateurs" ? (
+                      <button
+                        onClick={handleAction}
+                        className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+                      >
+                        Voir les utilisateurs
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleAction}
+                        className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+                      >
+                        Actions rapides
+                      </button>
+                    )}
+                  </li>
+                </ul>
+                <div className="mt-4">
+                  {title === "Sous-catégories" ? (
+                    <a
+                      href="/admin/subcategories"
+                      className="block w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 py-2 text-center text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-cyan-500/20"
                     >
-                      Voir
-                    </Button>
+                      Gérer
+                    </a>
+                  ) : title === "Catégories" ? (
+                    <a
+                      href="/admin/categories/manage"
+                      className="block w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 py-2 text-center text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-cyan-500/20"
+                    >
+                      Gérer
+                    </a>
+                  ) : title === "Produits" ? (
+                    <a
+                      href="/admin/products/manage"
+                      className="block w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 py-2 text-center text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-cyan-500/20"
+                    >
+                      Gérer
+                    </a>
                   ) : (
-                    <Button
-                      size="sm"
-                      className="h-7 bg-[#0db9b5] text-black hover:bg-[#0db9b5]/90"
-                      onClick={() => {
-                        setActionsCardName(title)
-                        setActionsModalOpen(true)
-                      }}
+                    <button
+                      onClick={handleAction}
+                      className="w-full rounded-lg bg-white/5 px-3 py-2 text-sm font-medium text-white/90 transition-colors hover:bg-white/10"
                     >
                       Voir
-                    </Button>
+                    </button>
                   )}
-                </li>
-              </ul>
-            </div>
-          ))}
+                </div>
+              </div>
+            )
+          })}
         </div>
 
         {/* Users Modal */}
@@ -313,19 +356,39 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 px-1">
-              <Button className="group h-11 justify-start gap-2 bg-[#0db9b5] text-black shadow-lg shadow-[#0db9b5]/30 transition hover:translate-y-[-1px] hover:bg-[#0db9b5]/90">
+              <Button
+                className="group h-11 justify-start gap-2 bg-[#0db9b5] text-black shadow-lg shadow-[#0db9b5]/30 transition hover:translate-y-[-1px] hover:bg-[#0db9b5]/90"
+                onClick={() => {
+                  if (actionsCardName === "Catégories") router.push("/admin/categories/add")
+                }}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M11 11V5a1 1 0 1 1 2 0v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6Z"/></svg>
                 Ajouter
               </Button>
-              <Button className="group h-11 justify-start gap-2 bg-white/10 text-white backdrop-blur transition hover:translate-y-[-1px] hover:bg-white/20">
+              <Button
+                className="group h-11 justify-start gap-2 bg-white/10 text-white backdrop-blur transition hover:translate-y-[-1px] hover:bg-white/20"
+                onClick={() => {
+                  if (actionsCardName === "Catégories") router.push("/admin/categories")
+                }}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"/></svg>
                 Afficher
               </Button>
-              <Button className="group h-11 justify-start gap-2 bg-white/10 text-white backdrop-blur transition hover:translate-y-[-1px] hover:bg-white/20">
+              <Button
+                className="group h-11 justify-start gap-2 bg-white/10 text-white backdrop-blur transition hover:translate-y-[-1px] hover:bg-white/20"
+                onClick={() => {
+                  if (actionsCardName === "Catégories") router.push("/admin/categories/manage")
+                }}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25Zm18-11.5a1 1 0 0 0 0-1.41l-2.59-2.59a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 2.08-1.98Z"/></svg>
                 Modifier
               </Button>
-              <Button className="group h-11 justify-start gap-2 bg-rose-500/80 text-white transition hover:translate-y-[-1px] hover:bg-rose-500">
+              <Button
+                className="group h-11 justify-start gap-2 bg-rose-500/80 text-white transition hover:translate-y-[-1px] hover:bg-rose-500"
+                onClick={() => {
+                  if (actionsCardName === "Catégories") router.push("/admin/categories/manage")
+                }}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4"><path d="M6 7h12l-1 13H7L6 7Zm2-4h8l1 3H7l1-3Z"/></svg>
                 Supprimer
               </Button>

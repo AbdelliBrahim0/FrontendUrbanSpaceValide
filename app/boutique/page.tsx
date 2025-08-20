@@ -6,12 +6,13 @@ import { PromotionalBanner } from "@/components/promotions/promotional-banner"
 import { ProductShowcaseCarousel } from "@/components/advanced/product-showcase-carousel"
 import { TrendingCollections } from "@/components/advanced/trending-collections"
 import { CategoryGrid } from "@/components/category-grid"
-import { ProductCards } from "@/components/product-cards"
+import ProductCard from "@/components/product-cards"
 import { Footer } from "@/components/footer"
 import { ScrollingBanner } from "@/components/scrolling-banner"
 import { LogoScrollingBanner } from "@/components/logo-scrolling-banner"
 import { motion } from "framer-motion"
 import { AnimatePresence } from "framer-motion"
+import Link from "next/link"
 
 const products = [
   {
@@ -152,7 +153,7 @@ export default function BoutiquePage() {
         <PromotionalBanner />
         <ProductShowcaseCarousel />
         <ScrollingBanner messages={[
-          "🔥 Livraison offerte dès 50€ d'achat !",
+          "🔥 Livraison offerte dès 150 TND d'achat !",
           "✨ Nouveautés chaque semaine !",
           "🎁 10% de réduction avec le code URBAN10",
           "🚀 Expédition en 24h !",
@@ -165,7 +166,7 @@ export default function BoutiquePage() {
             <h2 className="text-6xl md:text-8xl font-black mb-6 bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400 bg-clip-text text-transparent text-center">Nos Produits</h2>
             <div className="grid gap-8 grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
               {products.map((product) => (
-                <ProductCards key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
             <motion.div
@@ -175,19 +176,21 @@ export default function BoutiquePage() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <motion.button
-                className="px-12 py-4 bg-gradient-to-r from-purple-600 via-cyan-600 to-green-500 rounded-xl font-bold text-white text-xl relative overflow-hidden group"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="relative z-10">Consulter tous les produits</span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "100%" }}
-                  transition={{ duration: 0.6 }}
-                />
-              </motion.button>
+              <Link href="/toutlesproduits">
+                <motion.button
+                  className="px-12 py-4 bg-gradient-to-r from-purple-600 via-cyan-600 to-green-500 rounded-xl font-bold text-white text-xl relative overflow-hidden group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span className="relative z-10">Consulter tous les produits</span>
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                </motion.button>
+              </Link>
             </motion.div>
 
             {/* Animation BlackFriday */}
